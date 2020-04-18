@@ -2,7 +2,7 @@
    Реализация разных типов нажатий
 */
 #define button 5  //  пин для кнопки
-#define debounce 500  //  время для устранения дребезга (200мс для кнопочного выключателя)
+#define debounce 500  //  время для устранения дребезга (500мс для кнопочного выключателя)
 #define hold 1000 //  время для удержания клавиши
 boolean button_state = false; //  состояние кнопки
 boolean button_flag = false;  //  флажок нажатия кнопки
@@ -29,14 +29,17 @@ void loop() {
 }
 
 void buttonFucnction() {
+  //  нажатие и устранение дребезга
   if (button_state == true && button_flag == false && millis() - button_timer > debounce) {
     button_flag = true;
     button_timer = millis();
   }
+  //  краткое нажатие
   if (button_state == false && button_flag == true && millis() - button_timer < hold) {
     button_flag = false;
     button_once_push = true;
   }
+  //  длинное нажатие
   if (button_state == false && button_flag == true && millis() - button_timer > hold) {
     button_flag = false;
     button_hold_push = true;
